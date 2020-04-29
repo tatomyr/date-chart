@@ -1,8 +1,7 @@
-import { W, H, T, R, B, L, X_TICKS, Y_TICKS, FONT_SIZE } from "./const.js"
+import { LabelProps, Pair } from "./types.ts"
+import { W, H, T, R, B, L, X_TICKS, Y_TICKS, FONT_SIZE } from "./const.ts"
 
-type LabelProps = { index: number; label?: string }
-
-export const createXLabel = ([minT, maxT]) => ({
+export const createXLabel = ([minT, maxT]: Pair) => ({
   index,
   label,
 }: LabelProps) => `
@@ -16,7 +15,7 @@ export const createXLabel = ([minT, maxT]) => ({
   </text>
 `
 
-export const createYLabel = ([minY, maxY]) => ({
+export const createYLabel = ([minY, maxY]: Pair) => ({
   index,
   label,
 }: LabelProps) => `
@@ -26,6 +25,4 @@ export const createYLabel = ([minY, maxY]) => ({
 `
 
 export const createTicks = (TICKS: number) =>
-  Array.from(Array(TICKS), (_, index) => ({
-    index,
-  }))
+  Array.from(Array(TICKS), (_, index) => ({ index }))

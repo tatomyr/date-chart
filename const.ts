@@ -8,4 +8,15 @@ export const W = 600, // Width
   Y_TICKS = 4,
   FONT_SIZE = 10
 
-export const COLORS = ["grey", "red", "green", "orange", "purple", "lightblue"]
+export const SHEET_BACKGROUND = "#f0fef0",
+  CHART_BACKGROUND = "#fef0f1",
+  CHART_BORDER = "pink"
+
+export const COLOR_LIST = [
+  "grey",
+  "red",
+  "green",
+  "orange",
+  "purple",
+  "lightblue",
+]
