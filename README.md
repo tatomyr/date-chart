@@ -9,6 +9,11 @@ Creates a SVG date chart from CSV table like this:
 
 In order to create data chart run this command: 
 ```bash 
+deno --allow-read=. --allow-write=. https://tatomyr.github.io/date-chart/cli.ts -i test-data.csv -o chart.svg
+```
+
+You can also use local script: 
+```bash
 deno --allow-read=. --allow-write=. cli.ts -i test-data.csv -o chart.svg
 ```
 
