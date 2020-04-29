@@ -41,13 +41,13 @@ const pair = (i: number) => (values: string[]): Pair => [
   parseFloat(values[i]),
 ]
 
-const getSerie = (col: number) =>
+const getSeries = (col: number) =>
   matrix.reduce(
     ($: Pair[], values: string[]): Pair[] => [...$, pair(col)(values)],
     []
   )
 
-const series = Array.from(Array(headers.length - 1), (_, i) => i + 1)
+const seriesList = Array.from(Array(headers.length - 1), (_, i) => i + 1)
 
 const dates = matrix.map(([value]) => transformToTime(value))
 
@@ -70,7 +70,7 @@ const normalizeData = createDataNormalizer(X_RANGE, Y_RANGE)
 const xLabel = createXLabel(X_RANGE)
 const yLabel = createYLabel(Y_RANGE)
 
-export const createTimeChart = () => `
+export const createDateChart = () => `
   <div id="chart">
     <svg 
       viewBox="0 0 ${L + W + R} ${T + H + B}" 
@@ -102,10 +102,10 @@ export const createTimeChart = () => `
       <!-- Y-Titles -->
       <g class="labels y-titles">
         <text x="${L + W / 2}" y="${-(H + B + FONT_SIZE / 2)}">
-          ${series
+          ${seriesList
             .map(
-              (serie) => `
-                <tspan fill="${COLORS[serie]}">${headers[serie]}</tspan>
+              (series) => `
+                <tspan fill="${COLORS[series]}">${headers[series]}</tspan>
               `
             )
             .join(" ")}
@@ -113,28 +113,28 @@ export const createTimeChart = () => `
       </g>
 
       <!-- Data (lines & points) -->
-      ${series.map(
-        (serie) => `
+      ${seriesList.map(
+        (series) => `
           <polyline
             fill="none"
             stroke-width="1"
-            points="${getSerie(serie).map(normalizeData).join(" ")}"
-            stroke="${COLORS[serie]}"
+            points="${getSeries(series).map(normalizeData).join(" ")}"
+            stroke="${COLORS[series]}"
           />
           <g class="data" >
-            ${getSerie(serie)
+            ${getSeries(series)
               .map(normalizeData)
               .map(
                 ([t, y]) => `
-                  <circle cx="${t}" cy="${y}" r="2"  stroke="${COLORS[serie]}" stroke-width="1" class="points" />
+                  <circle cx="${t}" cy="${y}" r="2"  stroke="${COLORS[series]}" stroke-width="1" class="points" />
                 `
               )}
           </g>
         `
       )}
-      
+
     </svg>
   </div>
 `
 
-mount(() => createTimeChart(/* ... */))
+mount(() => createDateChart(/* ... */))
