@@ -1,45 +1,43 @@
-import {
-  W,
-  H,
-  T,
-  R,
-  B,
-  L,
-  X_TICKS,
-  Y_TICKS,
-  FONT_SIZE,
-  COLOR_LIST,
-  CHART_BACKGROUND,
-  SHEET_BACKGROUND,
-  CHART_BORDER,
-} from "./const.ts"
 import { createTicks, createXLabel, createYLabel } from "./labels.ts"
-import { Pair, Matrix } from "./types.ts"
+import { Pair, ChartInput, ChartOptions } from "./types.ts"
 import {
   transformToTime,
   createDataNormalizer,
   createGetSeries,
   createSeriesIdList,
+  createGetColor,
 } from "./svg-helpers.ts"
-
-interface CreateSVGParams {
-  headers: string[]
-  matrix: Matrix
-  yRange?: Pair
-}
 
 export const createSVG = ({
   headers,
   matrix,
   yRange = [0, 100],
-}: CreateSVGParams) => {
+  ...chartOptions
+}: ChartInput & ChartOptions) => {
+  const {
+    W,
+    H,
+    T,
+    R,
+    B,
+    L,
+    X_TICKS,
+    Y_TICKS,
+    FONT_SIZE,
+    COLOR_LIST,
+    CHART_BACKGROUND,
+    SHEET_BACKGROUND,
+    CHART_BORDER,
+  } = chartOptions
+
   const seriesIdList = createSeriesIdList(headers)
   const dates = matrix.map(([value]: string[]) => transformToTime(value))
   const xRange: Pair = [Math.min(...dates), Math.max(...dates)]
   const getSeries = createGetSeries(matrix)
-  const normalizeData = createDataNormalizer(xRange, yRange)
-  const xLabel = createXLabel(xRange)
-  const yLabel = createYLabel(yRange)
+  const normalizeData = createDataNormalizer(xRange, yRange, chartOptions)
+  const xLabel = createXLabel(xRange, chartOptions)
+  const yLabel = createYLabel(yRange, chartOptions)
+  const getColor = createGetColor(chartOptions)
 
   return `
     <svg 
@@ -98,7 +96,7 @@ export const createSVG = ({
           ${seriesIdList
             .map(
               (seriesId: number) => `
-                <tspan fill="${COLOR_LIST[seriesId]}">${headers[seriesId]}</tspan>
+                <tspan fill="${getColor(seriesId)}">${headers[seriesId]}</tspan>
               `
             )
             .join(" ")}
@@ -112,7 +110,7 @@ export const createSVG = ({
             fill="none"
             stroke-width="1"
             points="${getSeries(seriesId).map(normalizeData).join(" ")}"
-            stroke="${COLOR_LIST[seriesId]}"
+            stroke="${getColor(seriesId)}"
           />
           <g class="data" >
             ${getSeries(seriesId)
@@ -123,7 +121,7 @@ export const createSVG = ({
                     cx="${t}" 
                     cy="${y}" 
                     r="2" 
-                    stroke="${COLOR_LIST[seriesId]}" 
+                    stroke="${getColor(seriesId)}" 
                     stroke-width="1" 
                     class="points" 
                   />
