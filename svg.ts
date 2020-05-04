@@ -69,6 +69,7 @@ export const createSVG = ({
           text-anchor: end;
         }
       </style>
+
       <!-- Box -->
       <rect 
         x="${L}" 
@@ -81,13 +82,15 @@ export const createSVG = ({
 
       <!-- X-Labels -->
       <g class="labels x-labels" fill="${COLOR_LIST[0]}">
-        ${createTicks(X_TICKS).map(xLabel)}
+        ${createTicks(X_TICKS).map(xLabel).join("")}
         ${xLabel({ index: X_TICKS, label: headers[0] })}
       </g>
 
       <!-- Y-Labels -->
       <g class="labels y-labels" fill="${COLOR_LIST[0]}">
-        ${createTicks(Y_TICKS + 1).map(yLabel)}
+        ${createTicks(Y_TICKS + 1)
+          .map(yLabel)
+          .join("")}
       </g>
   
       <!-- Y-Titles -->
@@ -104,8 +107,9 @@ export const createSVG = ({
       </g>
 
       <!-- Data (lines & points) -->
-      ${seriesIdList.map(
-        (seriesId: number) => `
+      ${seriesIdList
+        .map(
+          (seriesId: number) => `
           <polyline
             fill="none"
             stroke-width="1"
@@ -126,11 +130,12 @@ export const createSVG = ({
                     class="points" 
                   />
                 `
-              )}
+              )
+              .join("")}
           </g>
         `
-      )}
-
+        )
+        .join("")}
     </svg>
   `
 }

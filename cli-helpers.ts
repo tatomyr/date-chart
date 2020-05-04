@@ -7,8 +7,6 @@ export const replaceExtension = (fileName: string) => {
   return newFileName
 }
 
- 
-
 export const combineOptions = ([userOptions, defaultOptions]: [
   CLChartOptions,
   ChartOptions
