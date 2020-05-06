@@ -1,4 +1,5 @@
 import { Pair, Matrix, ChartOptions } from "./types.ts"
+import { NORM } from "./chart-options.ts"
 
 export const transformToTime = (str: string) => new Date(str).getTime()
 
@@ -35,6 +36,45 @@ export const getXRange = (matrix: Matrix): Pair => {
   return getRange(dates)
 }
 
+// TODO: clean it up
+export const getBottomUp = ([minY, maxY]: Pair): Pair => {
+  const avgY = (minY + maxY) / 2
+  const varY = maxY - minY
+  const k = Math.log(varY) / Math.log(10)
+  const kRound = Math.round(k)
+  const kCeil = Math.ceil(k)
+  const kFloor = Math.floor(k)
+  const step = NORM * 10 ** kRound
+  const bottom = Math.floor(minY / step) * step
+  const up = Math.ceil(maxY / step) * step
+
+  console.log(
+    {
+      minY,
+      maxY,
+      avgY,
+      varY,
+      v: varY / avgY,
+
+      kFloor,
+      k,
+      kRound,
+      kCeil,
+
+      step,
+      bottom,
+      up,
+      // TODO: implement different scaling factor for each series
+      scaleFactor: 1,
+    },
+    [minY / step, maxY / step],
+    "-->",
+    [bottom, up]
+  )
+
+  return [bottom, up]
+}
+
 export const getYRange = (matrix: Matrix, seriesIdList: number[]): Pair => {
   let getSeries = createGetSeries(matrix)
 
@@ -43,7 +83,9 @@ export const getYRange = (matrix: Matrix, seriesIdList: number[]): Pair => {
     return getRange(values)
   })
 
-  return getRange(rangeList.flat()) // FIXME: naїve approach
+  rangeList.forEach(getBottomUp) // FIXME: delete
+
+  return getBottomUp(getRange(rangeList.flat()))
 }
 
 export const createGetColor = ({ COLOR_LIST }: ChartOptions) => (

@@ -9,7 +9,7 @@ import {
   combineOptions,
   logInfo,
 } from "./cli-helpers.ts"
-import { defaultChartOptions } from "./default-chart-options.ts"
+import { defaultChartOptions } from "./chart-options.ts"
 
 try {
   const {

@@ -17,3 +17,5 @@ export const defaultChartOptions: ChartOptions = {
 
   COLOR_LIST: ["grey", "red", "green", "orange", "purple", "lightblue"],
 }
+
+export const NORM = 1 // The other possible option could be 0.5
