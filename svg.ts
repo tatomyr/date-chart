@@ -33,7 +33,7 @@ export const createSVG = ({
 
   const seriesIdList = createSeriesIdList(headers)
   const xRange: Pair = getXRange(matrix)
-  const yRange: Pair = Y_RANGE ?? getYRange(matrix)
+  const yRange: Pair = Y_RANGE ?? getYRange(matrix, seriesIdList)
   const getSeries = createGetSeries(matrix)
   const normalizeData = createDataNormalizer(xRange, yRange, chartOptions)
   const xLabel = createXLabel(xRange, chartOptions)

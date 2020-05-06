@@ -25,13 +25,25 @@ export const createGetSeries = (matrix: Matrix) => (col: number) =>
 export const createSeriesIdList = ({ length }: any[]) =>
   Array.from(Array(length - 1), (_, i) => i + 1)
 
+export const getRange = (arr: number[]): Pair => [
+  Math.min(...arr),
+  Math.max(...arr),
+]
+
 export const getXRange = (matrix: Matrix): Pair => {
   const dates = matrix.map(([value]: string[]) => transformToTime(value))
-  return [Math.min(...dates), Math.max(...dates)]
+  return getRange(dates)
 }
 
-export const getYRange = (matrix: Matrix): Pair => {
-  return [0, 100] // TODO: calculate yRange dynamically based on series data
+export const getYRange = (matrix: Matrix, seriesIdList: number[]): Pair => {
+  let getSeries = createGetSeries(matrix)
+
+  const rangeList = seriesIdList.map((col) => {
+    const values = getSeries(col).map(([_, y]) => y)
+    return getRange(values)
+  })
+
+  return getRange(rangeList.flat()) // FIXME: naїve approach
 }
 
 export const createGetColor = ({ COLOR_LIST }: ChartOptions) => (
