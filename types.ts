@@ -12,7 +12,6 @@ export type LabelProps = {
 export interface ChartInput {
   headers: string[]
   matrix: Matrix
-  yRange?: Pair
 }
 
 export interface ChartOptions {
@@ -29,6 +28,7 @@ export interface ChartOptions {
   CHART_BORDER: string
   SHEET_BACKGROUND: string
   COLOR_LIST: string[]
+  Y_RANGE?: Pair
 }
 
 interface CLChartOptionsAll extends Args {
@@ -53,6 +53,8 @@ interface CLChartOptionsAll extends Args {
   "chart-background": string
   "chart-border": string
   "sheet-background": string
+  "y-range": string
+  y: string
 }
 
 export type CLChartOptions = Partial<CLChartOptionsAll> & { _: string[] }

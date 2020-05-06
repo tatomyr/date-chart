@@ -10,7 +10,7 @@ Creates a SVG date chart from CSV table like this:
 In order to create data chart run this command:
 
 ```bash
-deno --allow-read=. --allow-write=. https://tatomyr.github.io/date-chart/cli.ts -i test-data.csv -o chart.svg
+deno --allow-read=. --allow-write=. --reload https://tatomyr.github.io/date-chart/cli.ts -i test-data.csv -o chart.svg
 ```
 
 You can also use local script:
@@ -38,9 +38,13 @@ Other available flags are:
 | chart-background | -     |
 | chart-border     | -     |
 | sheet-background | -     |
+| y-range          | y     |
+
+The `y-range` should be supplied as two numbers separated by ellipsis (`..`) or a hyphen.
 
 You may also specify a list of colors separated by comma right after the other flags to use them for series colouring.
 
 # Testing
 
-Run tests with `deno cli-helpers.test.ts`. See details [here](https://deno.land/std/testing/).
+Run tests with `deno test *.test.ts`.
+See more [here](https://deno.land/std/testing/).

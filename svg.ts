@@ -1,17 +1,17 @@
 import { createTicks, createXLabel, createYLabel } from "./labels.ts"
 import { Pair, ChartInput, ChartOptions } from "./types.ts"
 import {
-  transformToTime,
   createDataNormalizer,
   createGetSeries,
   createSeriesIdList,
+  getXRange,
+  getYRange,
   createGetColor,
 } from "./svg-helpers.ts"
 
 export const createSVG = ({
   headers,
   matrix,
-  yRange = [0, 100],
   ...chartOptions
 }: ChartInput & ChartOptions) => {
   const {
@@ -28,11 +28,12 @@ export const createSVG = ({
     CHART_BACKGROUND,
     SHEET_BACKGROUND,
     CHART_BORDER,
+    Y_RANGE,
   } = chartOptions
 
   const seriesIdList = createSeriesIdList(headers)
-  const dates = matrix.map(([value]: string[]) => transformToTime(value))
-  const xRange: Pair = [Math.min(...dates), Math.max(...dates)]
+  const xRange: Pair = getXRange(matrix)
+  const yRange: Pair = Y_RANGE ?? getYRange(matrix)
   const getSeries = createGetSeries(matrix)
   const normalizeData = createDataNormalizer(xRange, yRange, chartOptions)
   const xLabel = createXLabel(xRange, chartOptions)

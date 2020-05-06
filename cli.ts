@@ -7,6 +7,7 @@ import {
   replaceExtension,
   decorateWithOptions,
   combineOptions,
+  logInfo,
 } from "./cli-helpers.ts"
 import { defaultChartOptions } from "./default-chart-options.ts"
 
@@ -21,19 +22,7 @@ try {
 
   const csv = new TextDecoder("utf-8").decode(await Deno.readFile(inputFile))
 
-  console.log("DATA")
-  console.table([processCSV(csv).headers, ...processCSV(csv).matrix])
-  console.log("USER OPTIONS")
-  console.table(
-    (({ _, ...rest }) => ({ ...rest, COLOR_LIST: _.join(" ") }))(userOptions)
-  )
-  console.log("OPTIONS")
-  console.table(
-    (({ COLOR_LIST, ...rest }) => ({
-      ...rest,
-      COLOR_LIST: COLOR_LIST.join(" "),
-    }))(combineOptions([userOptions, defaultChartOptions]))
-  )
+  logInfo({ csv, userOptions, defaultChartOptions })
 
   const img = pipe(
     processCSV,
