@@ -1,5 +1,4 @@
 import { Pair, Matrix, ChartOptions } from "./types.ts"
-import { NORM } from "./chart-options.ts"
 
 export const transformToTime = (str: string) => new Date(str).getTime()
 
@@ -37,14 +36,14 @@ export const getXRange = (matrix: Matrix): Pair => {
 }
 
 // TODO: clean it up
-export const getBottomUp = ([minY, maxY]: Pair): Pair => {
+export const extendRange = ([minY, maxY]: Pair, norm: number): Pair => {
   const avgY = (minY + maxY) / 2
   const varY = maxY - minY
   const k = Math.log(varY) / Math.log(10)
   const kRound = Math.round(k)
   const kCeil = Math.ceil(k)
   const kFloor = Math.floor(k)
-  const step = NORM * 10 ** kRound
+  const step = norm * 10 ** kRound
   const bottom = Math.floor(minY / step) * step
   const up = Math.ceil(maxY / step) * step
 
@@ -59,7 +58,7 @@ export const getYRange = (matrix: Matrix, seriesIdList: number[]): Pair => {
     return getRange(values)
   })
 
-  return getBottomUp(getRange(rangeList.flat()))
+  return getRange(rangeList.flat())
 }
 
 export const createGetColor = ({ COLOR_LIST }: ChartOptions) => (

@@ -7,6 +7,7 @@ import {
   getXRange,
   getYRange,
   createGetColor,
+  extendRange,
 } from "./svg-helpers.ts"
 
 export const createSVG = ({
@@ -29,11 +30,13 @@ export const createSVG = ({
     SHEET_BACKGROUND,
     CHART_BORDER,
     Y_RANGE,
+    Y_NORM,
   } = chartOptions
 
   const seriesIdList = createSeriesIdList(headers)
   const xRange: Pair = getXRange(matrix)
-  const yRange: Pair = Y_RANGE ?? getYRange(matrix, seriesIdList)
+  const yRange: Pair =
+    Y_RANGE ?? extendRange(getYRange(matrix, seriesIdList), Y_NORM)
   const getSeries = createGetSeries(matrix)
   const normalizeData = createDataNormalizer(xRange, yRange, chartOptions)
   const xLabel = createXLabel(xRange, chartOptions)

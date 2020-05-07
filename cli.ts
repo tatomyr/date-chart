@@ -1,5 +1,5 @@
 import { parse } from "https://deno.land/std/flags/mod.ts"
-import { pipe } from "./modules.ts"
+import { pipe } from "./deps.ts"
 import { CLArguments } from "./types.ts"
 import { processCSV } from "./csv.ts"
 import { createSVG } from "./svg.ts"

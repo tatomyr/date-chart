@@ -16,6 +16,6 @@ export const defaultChartOptions: ChartOptions = {
   CHART_BORDER: "pink",
 
   COLOR_LIST: ["grey", "red", "green", "orange", "purple", "lightblue"],
-}
 
-export const NORM = 1 // The other possible option could be 0.5
+  Y_NORM: 1, // The other possible option could be 0.5
+}

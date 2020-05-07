@@ -29,6 +29,7 @@ export interface ChartOptions {
   SHEET_BACKGROUND: string
   COLOR_LIST: string[]
   Y_RANGE?: Pair
+  Y_NORM: number
 }
 
 interface CLChartOptionsAll extends Args {
