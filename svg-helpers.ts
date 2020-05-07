@@ -36,7 +36,7 @@ export const getXRange = (matrix: Matrix): Pair => {
 }
 
 // TODO: clean it up
-export const extendRange = ([minY, maxY]: Pair, norm: number): Pair => {
+export const extendRange = ([minY, maxY]: Pair, norm: number = 1): Pair => {
   const avgY = (minY + maxY) / 2
   const varY = maxY - minY
   const k = Math.log(varY) / Math.log(10)
