@@ -1,4 +1,3 @@
-import { createTicks, createXLabel, createYLabel } from "./labels.ts"
 import { Pair, ChartInput, ChartOptions } from "./types.ts"
 import {
   createDataNormalizer,
@@ -9,6 +8,8 @@ import {
   createGetColor,
   extendRange,
 } from "./svg-helpers.ts"
+import { createTicks, createXLabel, createYLabel } from "./svg-labels.ts"
+import { title } from "./svg-title.ts"
 
 export const createSVG = ({
   headers,
@@ -124,7 +125,7 @@ export const createSVG = ({
             ${getSeries(seriesId)
               .map(normalizeData)
               .map(
-                ([t, y]: Pair) => `
+                ([t, y]: Pair, i) => `
                   <circle 
                     cx="${t}" 
                     cy="${y}" 
@@ -132,7 +133,9 @@ export const createSVG = ({
                     stroke="${getColor(seriesId)}" 
                     stroke-width="1" 
                     class="points" 
-                  />
+                  >
+                    ${title(getSeries(seriesId)[i])}
+                  </circle>
                 `
               )
               .join("")}

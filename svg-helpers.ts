@@ -47,6 +47,30 @@ export const extendRange = ([minY, maxY]: Pair, norm: number = 1): Pair => {
   const bottom = Math.floor(minY / step) * step
   const up = Math.ceil(maxY / step) * step
 
+  console.log(
+    {
+      minY,
+      maxY,
+      avgY,
+      varY,
+      v: varY / avgY,
+
+      kFloor,
+      k,
+      kRound,
+      kCeil,
+
+      step,
+      bottom,
+      up,
+      // TODO: implement different scaling factor for each series
+      scaleFactor: 1,
+    },
+    [minY / step, maxY / step],
+    "-->",
+    [bottom, up]
+  )
+
   return [bottom, up]
 }
 
@@ -57,6 +81,8 @@ export const getYRange = (matrix: Matrix, seriesIdList: number[]): Pair => {
     const values = getSeries(col).map(([_, y]) => y)
     return getRange(values)
   })
+
+  rangeList.forEach((range) => extendRange(range, 1)) // TODO: remove; implement different scaling for different sereis
 
   return getRange(rangeList.flat())
 }
